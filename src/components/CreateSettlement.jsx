@@ -1,25 +1,28 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 
-export default function App() {
+const CreateSettlement = ( props ) => {
   const { register, handleSubmit, watch, errors } = useForm();
   
-  const onSubmit = ({ name }) => {
+  const createNewSettlement = (data) => {
+    console.log(data)
     const requestOptions = {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ name : name })
+      body: JSON.stringify({ name : data.name })
     };
     fetch('http://localhost:7000/settlements', requestOptions)
     .then(response => response.json())
-    .then(response => console.log(response));
+    .then(response => props.updateSettlements(response));
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <form onSubmit={handleSubmit(createNewSettlement)}>
       <label for="name">Name</label>
       <input name="name" defaultValue="test" ref={register} />
       <input type="submit" />
     </form>
   );
 }
+
+export default CreateSettlement;

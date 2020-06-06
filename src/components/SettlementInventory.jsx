@@ -7,11 +7,12 @@ const SettlementInventory = ({ settlementId }) => {
 
   useEffect(() => {
     fetch(`http://localhost:7000/inventories/${settlementId}`)
-    .then(res => res.json())
+    .then(result => result.json())
     .then( async (result) => {
+      console.log(result)
       await setInventory(result[0]);
       setIsLoading(false);
-      console.log(inventory)
+      console.log("Invenotry in SettlementInventory is ", inventory)
     })
     .catch( err => console.error(err));
   }, []);

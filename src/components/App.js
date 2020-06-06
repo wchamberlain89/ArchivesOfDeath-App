@@ -4,8 +4,8 @@ import ItemsList from './ItemsList';
 import CreateSettlement from './CreateSettlement';
 import SettlementList from './SettlementsList';
 import Settlement from './Settlement';
-
 import '../temp.css';
+
 function App() {
   return (
     <>
