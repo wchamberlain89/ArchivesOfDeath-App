@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import Settlement from './Settlement';
-
+import { Link } from 'react-router-dom';
 const SettlementsList = () => {
   const [settlements, setSettlements] = useState([]);
   const [activeSettlement, setActiveSettlement] = useState();
@@ -20,13 +20,9 @@ const SettlementsList = () => {
       {
         settlements.map(settlement => {
           return (
-            <Settlement 
-            name={settlement.name} 
-            settlementId={settlement.settlementId} 
-            key={settlement.settlementId} 
-            handleClick={() => setActiveSettlement(settlement)}
-            active={activeSettlement === settlement ? 'active' : null}
-          />
+            <Link to={{ pathname: '/settlement', state: { settlement: settlement } }}>
+              {settlement.name}
+            </Link>
           ) 
         })
       }

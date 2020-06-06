@@ -1,13 +1,12 @@
 import React from 'react';
 import SettlementInventory from './SettlementInventory';
 
-const Settlement = ({ name, settlementId, active, handleClick }) => {
+const Settlement = ( props ) => {
+  const { settlement } = props.location.state;
   return (
     <>
-    <li onClick={handleClick}> {name} {settlementId}</li>
-    { active === 'active' && <SettlementInventory settlementId={settlementId}/>}
-    
-    
+      <h1>{settlement.name}</h1>
+      <SettlementInventory settlementId={settlement.settlementId}/>
     </>
   )
 }
