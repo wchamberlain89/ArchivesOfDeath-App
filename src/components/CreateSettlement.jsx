@@ -13,7 +13,7 @@ const CreateSettlement = ( props ) => {
     };
     fetch('http://localhost:7000/settlements', requestOptions)
     .then(response => response.json())
-    .then(response => props.updateSettlements(response));
+    .then(response => props.handleAddSettlement(response));
   };
 
   return (

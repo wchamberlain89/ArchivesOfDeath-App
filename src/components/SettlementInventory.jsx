@@ -12,7 +12,7 @@ const SettlementInventory = ({ settlementId }) => {
       console.log(result)
       await setInventory(result[0]);
       setIsLoading(false);
-      console.log("Invenotry in SettlementInventory is ", inventory)
+      console.log("Inventory in SettlementInventory is ", inventory)
     })
     .catch( err => console.error(err));
   }, []);
