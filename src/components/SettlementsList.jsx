@@ -17,7 +17,6 @@ const settlementsReducer = ( state, action ) => {
       };
 
     case 'FETCH_SUCCESS':
-      console.log(action.payload) 
       return {
         ...state,
         isLoading: false,
@@ -32,7 +31,6 @@ const settlementsReducer = ( state, action ) => {
       };
 
     case 'ADD_SETTLEMENT':
-      console.log("ADD SETTLEMENT REDUCER STATE VALUE ", action)
       const settlementsCopy = state.settlements;
       settlementsCopy.push(action.payload.settlement);
       return {
@@ -58,27 +56,32 @@ const SettlementsList = () => {
     dispatch({ type: 'FETCH_SUCCESS', payload: data })
   }
 
+  const fetchFailure = (error) => {
+    dispatch({ type: 'FETCH_FAILURE', payload: error})
+  }
+
   const addSettlement = (settlement) => {
     dispatch({ type: 'ADD_SETTLEMENT', payload: { settlement }})
   }
   
   useEffect(() => {
     initFetch();
+
     fetch("http://localhost:7000/settlements")
-    .then(res => res.json())
+    .then( response => response.json())
     .then( result => {
-      console.log("fetch success")
       fetchSuccess(result);
     })
-    .catch( err => console.error(err));
+    .catch( error => {
+      fetchFailure(`Fetching of settlement data failed because ${error}`)
+    });
   }, []);
 
   if(state.isLoading) {
     return <div>Loading...</div>
   }
-    else return (
+    return (
       <>
-        {console.log(state.settlements)}
         <ul>
           {
             state.settlements.map(settlement => {

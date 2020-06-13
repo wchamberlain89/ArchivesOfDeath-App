@@ -3,8 +3,9 @@ import ReactDOM from 'react-dom';
 import ItemsSelectList from './ItemsSelectList';
 import { useForm } from 'react-hook-form';
 
-const ItemModal = ({ isShowing, hide, inventoryId }) => {
+const ItemModal = ({ isShowing, hide, inventoryId, addItem }) => {
   const { register, handleSubmit } = useForm();
+  
   const onSubmit = ({ item }) => {
     const requestOptions = {
       method: 'POST',
@@ -16,7 +17,7 @@ const ItemModal = ({ isShowing, hide, inventoryId }) => {
     };
     fetch(`http://localhost:7000/settlements/inventory/${inventoryId}`, requestOptions)
     .then(response => response.json())
-    .then(response => console.log(response));
+    .then(json => addItem(json));
   };
 
   return (

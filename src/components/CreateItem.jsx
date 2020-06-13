@@ -2,7 +2,7 @@ import React from 'react';
 import ItemModal from './ItemModal';
 import useModal from './hooks/useModal';
 
-const CreateItem  = ({ inventoryId }) => {
+const CreateItem = ({ inventoryId, addItem }) => {
   const { isShowing, toggle } = useModal();
 
   return (
@@ -12,6 +12,7 @@ const CreateItem  = ({ inventoryId }) => {
         isShowing={isShowing}
         hide={toggle}
         inventoryId={inventoryId}
+        addItem={addItem}
       />
     </>
   )
