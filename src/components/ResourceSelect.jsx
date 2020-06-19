@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import ItemOption from './ItemOption';
+import ResourceOption from './ResourceOption';
 
-const ItemsSelectList = ({ register }) => {
+const ResourceSelect = ({ register }) => {
   const [resources, setResources] = useState([]);
 
   useEffect(() => {
@@ -26,6 +26,4 @@ const ItemsSelectList = ({ register }) => {
   );
 };
 
-ItemsSelectList.propTypes = {};
-
-export default ItemsSelectList;
+export default ResourceSelect;
