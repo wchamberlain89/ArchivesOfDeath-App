@@ -1,7 +1,5 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
-import ItemsList from './ItemsList';
-import CreateSettlement from './CreateSettlement';
 import SettlementList from './SettlementsList';
 import Settlement from './Settlement';
 import '../temp.css';

@@ -5,7 +5,6 @@ const CreateSettlement = ( props ) => {
   const { register, handleSubmit, watch, errors } = useForm();
   
   const createNewSettlement = (data) => {
-    console.log(data)
     const requestOptions = {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },

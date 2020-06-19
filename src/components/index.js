@@ -1,25 +1,19 @@
-import AddItem from './AddItem';
-import CreateItem from './CreateItem';
+import CreateResource from './CreateResource';
 import CreateSettlement from './CreateSettlement';
-import Item from './Item';
-import ItemModal from './ItemModal';
 import ItemOption from './ItemOption';
-import ItemsList from './ItemsList';
 import ItemsSelectList from './ItemsSelectList';
+import Modal from './Modal';
 import Settlement from './Settlement';
 import SettlementInventory from './SettlementInventory';
 import SettlementsList from './SettlementsList';
 
 
 export {
-  AddItem,
-  CreateItem,
+  CreateResource,
   CreateSettlement,
-  Item,
-  ItemModal,
   ItemOption,
-  ItemsList,
   ItemsSelectList,
+  Modal,
   Settlement,
   SettlementInventory,
   SettlementsList

@@ -3,23 +3,23 @@ import PropTypes from 'prop-types';
 import ItemOption from './ItemOption';
 
 const ItemsSelectList = ({ register }) => {
-  const [items, setItems] = useState([]);
+  const [resources, setResources] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:7000/items")
+    fetch("http://localhost:7000/assets/resources")
     .then(res => res.json())
     .then( result => {
       console.log(result);
-      setItems(result);
+      setResources(result);
     })
     .catch( err => console.error(err));
   }, []);
 
   return (
-    <select name="item" id="item" ref={register}>
-      {items.map((item) => {
+    <select name="resource" id="resourceId" ref={register}>
+      {resources.map((resource) => {
         return (
-          <ItemOption name={item.name} itemId={item.itemId} key={item.itemId}/>
+          <option value={resource.resourceId}>{resource.name}</option>
         )
       })}
     </select>

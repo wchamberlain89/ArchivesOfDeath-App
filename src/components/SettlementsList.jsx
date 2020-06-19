@@ -70,6 +70,7 @@ const SettlementsList = () => {
     fetch("http://localhost:7000/settlements")
     .then( response => response.json())
     .then( result => {
+      console.log(result)
       fetchSuccess(result);
     })
     .catch( error => {
@@ -87,6 +88,7 @@ const SettlementsList = () => {
             state.settlements.map(settlement => {
               return (
                 <li key={settlement.id}>
+                  {/* Links to Settlement Component passing the settlement object data.*/}
                   <Link to={{ pathname: '/settlement', state: { settlement: settlement } }}>
                       {settlement.name}
                   </Link>

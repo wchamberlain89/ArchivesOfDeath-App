@@ -1,20 +1,30 @@
 import React, { useReducer, useEffect } from 'react';
-import CreateItem from './CreateItem';
+import CreateResource from './CreateResource';
+import ResourceListItem from './ResourceListItem';
 
 const initialState = {
   inventory: [],
-  isLoading: false,
+  isLoading: true,
   error: ''
+}
+
+const sortByName = (resources) => {
+  return resources.sort(function(a, b) {
+    const resourceA = a.resourceInfo.name.toUpperCase(); // ignore upper and lowercase
+    const resourceB = b.resourceInfo.name.toUpperCase(); // ignore upper and lowercase
+    if (resourceA < resourceB) {
+      return -1;
+    }
+    if (resourceA > resourceB) {
+      return 1;
+    }
+
+    return 0;
+  });
 }
 
 const inventoryReducer = ( state, action ) => {
   switch(action.type) {
-    case 'INIT_FETCH':
-      return {
-        ...state,
-        isLoading: true
-      };
-
     case 'FETCH_SUCCESS':
       return {
         ...state,
@@ -29,11 +39,10 @@ const inventoryReducer = ( state, action ) => {
         error: action.payload
       };
 
-    case 'ADD_ITEM':
-      const inventoryCopy = state.inventory;
-      console.log("ADDITEM inventory items BEFORE", inventoryCopy.items);
-      inventoryCopy.items.push(action.payload.item);
-      console.log("ADDITEM inventory items AFTER", inventoryCopy.items);
+    case 'ADD_RESOURCE_TO_LIST':
+      let inventoryCopy = state.inventory;
+      inventoryCopy.push(action.payload.item);
+      inventoryCopy = sortByName(inventoryCopy);
       return {
         ...state,
         inventory: inventoryCopy
@@ -43,11 +52,6 @@ const inventoryReducer = ( state, action ) => {
 
 const SettlementInventory = ({ settlementId }) => {
   const [state, dispatch] = useReducer(inventoryReducer, initialState);
-
-  const initFetch = () => {
-    console.log("initializing fetch")
-    dispatch({ type: 'INIT_FETCH' })
-  };
   
   const fetchSuccess = (data) => {
     dispatch({ type: 'FETCH_SUCCESS', payload: data })
@@ -57,18 +61,16 @@ const SettlementInventory = ({ settlementId }) => {
     dispatch({ type: 'FETCH_FAILURE', payload: error})
   }
 
-  const addItem = (item) => {
-    dispatch({ type: 'ADD_ITEM', payload: { item }})
+  const addResourceToList = (item) => {
+    dispatch({ type: 'ADD_RESOURCE_TO_LIST', payload: { item }})
   }
 
   useEffect(() => {
-    initFetch();
-
-    fetch(`http://localhost:7000/inventories/${settlementId}`)
+    fetch(`http://localhost:7000/settlements/${settlementId}/resources`)
     .then( response => response.json())
     .then( json => {
-      console.log("json is", json[0])
-      fetchSuccess(json[0]);
+      console.log("json is", json)
+      fetchSuccess(json);
     })
     .catch( error => {
       fetchFailure(`Fetching of inventory data failed because ${error}`); 
@@ -84,13 +86,21 @@ const SettlementInventory = ({ settlementId }) => {
         <>
         <ul>
           {
-            state.inventory.items && state.inventory.items.map(item => <li key={item.itemId}>{item.name} {item.InventoryItem.qty}</li>)
+            state.inventory && state.inventory.map(({ resourceInfo, qty }) => {
+              return (
+                <ResourceListItem 
+                  key={resourceInfo.resourceId} 
+                  name={resourceInfo.name}
+                  qty={qty} 
+                  resourceId={resourceInfo.resourceId}
+                />
+              )
+            })
           }
         </ul>
-        <CreateItem inventoryId={state.inventory.invId} addItem={addItem}/>
+        <CreateResource settlementId={settlementId} handleCreateResource={addResourceToList}/>
         </>
       )}
-    <div>testing</div>
     </>
   )
 }
