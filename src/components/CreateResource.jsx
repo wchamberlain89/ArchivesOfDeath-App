@@ -2,7 +2,7 @@ import React from 'react';
 import Modal from './Modal';
 import useModal from './hooks/useModal';
 import { useForm } from 'react-hook-form';
-import ItemsSelectList from './ItemsSelectList';
+import ResourceSelect from './ResourceSelect';
 
 const CreateResource = ({ settlementId, handleCreateResource }) => {
   const { isShowing, toggle } = useModal();
@@ -32,7 +32,7 @@ const CreateResource = ({ settlementId, handleCreateResource }) => {
         isShowing={isShowing}
         hide={toggle}
       >
-        <ItemsSelectList register={register}/>
+        <ResourceSelect register={register}/>
         <button onClick={handleSubmit(onSubmit)}>Add Item</button>
       </Modal>
     </>

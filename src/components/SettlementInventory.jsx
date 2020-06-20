@@ -1,9 +1,14 @@
 import React, { useReducer, useEffect } from 'react';
-import CreateResource from './CreateResource';
-import ResourceListItem from './ResourceListItem';
+import {
+  Count, 
+  CreateResource,
+  ResourceList, 
+} from './index';
+import { ModalProvider } from './hooks/useModalContext';
+
 
 const initialState = {
-  inventory: [],
+  resources: [],
   isLoading: true,
   error: ''
 }
@@ -23,13 +28,13 @@ const sortByName = (resources) => {
   });
 }
 
-const inventoryReducer = ( state, action ) => {
+const resourcesReducer = ( state, action ) => {
   switch(action.type) {
     case 'FETCH_SUCCESS':
       return {
         ...state,
         isLoading: false,
-        inventory: action.payload
+        resources: action.payload
       };
 
     case 'FETCH_FAILURE':
@@ -40,18 +45,18 @@ const inventoryReducer = ( state, action ) => {
       };
 
     case 'ADD_RESOURCE_TO_LIST':
-      let inventoryCopy = state.inventory;
-      inventoryCopy.push(action.payload.item);
-      inventoryCopy = sortByName(inventoryCopy);
+      let resourcesCopy = state.resources;
+      resourcesCopy.push(action.payload.resource);
+      resourcesCopy = sortByName(resourcesCopy);
       return {
         ...state,
-        inventory: inventoryCopy
+        resources: resourcesCopy
       }
   }
 }
 
 const SettlementInventory = ({ settlementId }) => {
-  const [state, dispatch] = useReducer(inventoryReducer, initialState);
+  const [state, dispatch] = useReducer(resourcesReducer, initialState);
   
   const fetchSuccess = (data) => {
     dispatch({ type: 'FETCH_SUCCESS', payload: data })
@@ -61,8 +66,8 @@ const SettlementInventory = ({ settlementId }) => {
     dispatch({ type: 'FETCH_FAILURE', payload: error})
   }
 
-  const addResourceToList = (item) => {
-    dispatch({ type: 'ADD_RESOURCE_TO_LIST', payload: { item }})
+  const addResource = (resource) => {
+    dispatch({ type: 'ADD_RESOURCE_TO_LIST', payload: { resource }})
   }
 
   useEffect(() => {
@@ -77,29 +82,16 @@ const SettlementInventory = ({ settlementId }) => {
     });
   }, []);
 
-  {console.log(state)}
   return (
     <>
-      {state.isLoading ? <div>Loading</div>
-      : 
+      {state.isLoading ? <div>Loading</div> : 
       (
         <>
-        <ul>
-          {
-            state.inventory && state.inventory.map(({ resourceInfo, qty }) => {
-              return (
-                <ResourceListItem 
-                  key={resourceInfo.resourceId} 
-                  name={resourceInfo.name}
-                  qty={qty} 
-                  resourceId={resourceInfo.resourceId}
-                />
-              )
-            })
-          }
-        </ul>
-        <CreateResource settlementId={settlementId} handleCreateResource={addResourceToList}/>
-        </>
+        <ModalProvider>
+          <ResourceList resources={state.resources}/>
+        </ModalProvider>
+        <CreateResource settlementId={settlementId} handleCreateResource={addResource}/>
+        </>  
       )}
     </>
   )

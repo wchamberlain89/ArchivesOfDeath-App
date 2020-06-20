@@ -1,6 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
-import ResourceOption from './ResourceOption';
 
 const ResourceSelect = ({ register }) => {
   const [resources, setResources] = useState([]);

@@ -1,8 +1,8 @@
 import React from 'react';
 
-const ResourceListItem = ({ name, qty }) => {
+const ResourceListItem = ({ name, qty, onClick }) => {
   return (
-    <li>{name} {qty}</li>
+    <li onClick={onClick}>{name} {qty}</li>
   )
 }
 
