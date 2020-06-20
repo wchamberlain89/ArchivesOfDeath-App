@@ -6,29 +6,62 @@ import {
   ResourceListItem, 
 } from './index';
 
-const ResourceModalContent = (props) => {
-  const { name, description, resourceId, qty } = props;
-  console.log("resourceId is ", resourceId)
+const ResourceDetailModal = (props) => {
+  const { name, description, resourceId, settlementId, dispatch } = props;
+  const [ qty, setQty ] = useState(props.qty);
+  
+  const handleIncrement = () => {
+    setQty(qty + 1);
+  }
+
+  const handleDecrement = () => {
+    if(qty > 0) {
+      setQty(qty - 1);
+    }
+  }
+
+  const handleUpdateResource = () => {
+    dispatch({ type: 'UPDATE_INIT' })
+    const requestOptions = {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json'},
+      body: JSON.stringify({
+        qty: qty
+      })
+    }
+    fetch(`http://localhost:7000/settlements/${settlementId}/resources/${resourceId}}`, requestOptions)
+    .then(response => response.json())
+    .then(json => {
+      dispatch({ type: 'UPDATE_FINISHED', payload : json })
+    });
+  };
+  
   return <div>
     <p>{name}</p>
     <p>Description is : {description}</p>
-    <Counter initialState={qty}/>
+    <Counter onIncrement={handleIncrement} onDecrement={handleDecrement} count={qty}/>
     <p>resource ID is : {resourceId}</p>
+    <button onClick={handleUpdateResource}>Update Quantity</button>
+    <button onClick={() => props.handleModal()}>close</button>
   </div>
 }
 
-const ResourceList = ({ resources }) => {
+const ResourceList = (props) => {
+  const { settlementId, resources, dispatch } = props;
+  console.log("settlementId in resourcelist is", settlementId);
   const [ selectedResource, setSelectedResource ] = useState(null);
-  const { handleModal, modal } = useContext(ModalContext);
-  const openResourceDetailModal = ({ qty, resourceInfo : { description, name, resourceId } }) => {
-    console.log(resourceId, " is resource")
-    handleModal(<ResourceModalContent 
-                  resourceId={resourceId} 
+  const { handleModal } = useContext(ModalContext);
+  
+  const openResourceDetailModal = ({ qty, resourceId, resourceInfo : { description, name } }) => {
+    handleModal(<ResourceDetailModal 
+                  resourceId={resourceId}
+                  settlementId={settlementId} 
                   description={description}
                   name={name}
-                  qty={qty}
+                  qty={qty}                  
+                  dispatch={dispatch}
+                  handleModal={handleModal.call(this)}
                   />);
-    console.log(modal)
   }
   
   return (
@@ -36,10 +69,11 @@ const ResourceList = ({ resources }) => {
       <ul>
         {resources.map( ( resource ) => {
           return <ResourceListItem 
-            key={resource.resourceInfo.resourceId} 
+            key={resource.resourceId} 
             name={resource.resourceInfo.name}
             qty={resource.qty} 
-            resourceId={resource.resourceInfo.resourceId}
+            resourceId={resource.resourceId}
+            settlementId={settlementId}
             onClick={ () => openResourceDetailModal( resource ) }
           />
         })}
@@ -51,9 +85,10 @@ const ResourceList = ({ resources }) => {
 ResourceList.propTypes = {
   resources : PropTypes.arrayOf(PropTypes.exact({
     qty : PropTypes.number,
+    resourceId : PropTypes.number,
     resourceInfo : PropTypes.shape({
       name : PropTypes.string,
-      resourceId : PropTypes.number
+      description : PropTypes.string
     })
   }))
 }

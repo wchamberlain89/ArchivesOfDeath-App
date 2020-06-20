@@ -1,12 +1,3 @@
-import React, { useReducer, useEffect } from 'react';
-import {
-  Count, 
-  CreateResource,
-  ResourceList, 
-} from './index';
-import { ModalProvider } from './hooks/useModalContext';
-
-
 const initialState = {
   resources: [],
   isLoading: true,
@@ -29,7 +20,7 @@ const sortByName = (resources) => {
   });
 }
 
-const resourcesReducer = ( state, action ) => {
+const resourceReducer = ( state, action ) => {
   let resourcesCopy = state.resources;
   switch(action.type) {
     case 'UPDATE_INIT' :
@@ -76,50 +67,4 @@ const resourcesReducer = ( state, action ) => {
   }
 }
 
-const SettlementInventory = ({ settlementId }) => {
-  const [state, dispatch] = useReducer(resourcesReducer, initialState);
-  
-  const fetchSuccess = (data) => {
-    console.log("Fetch Success");
-    dispatch({ type: 'FETCH_SUCCESS', payload: data })
-  }
-
-  const fetchFailure = (error) => {
-    dispatch({ type: 'FETCH_FAILURE', payload: error})
-  }
-
-  const addResource = (resource) => {
-    dispatch({ type: 'ADD_RESOURCE_TO_LIST', payload: { resource }})
-  }
-
-  useEffect(() => {
-    console.log("using effect")
-    fetch(`http://localhost:7000/settlements/${settlementId}/resources`)
-    .then( response => response.json())
-    .then( json => {
-      console.log("json is", json)
-      fetchSuccess(json);
-    })
-    .catch( error => {
-      fetchFailure(`Fetching of inventory data failed because ${error}`); 
-    });
-  }, []);
-
-  console.log("rendering settlement inventory")
-  if (state.isLoading) {
-    return <h1>"Loading"</h1>
-  }
-
-  else {
-    return (
-      <>
-        <ModalProvider>
-          <ResourceList settlementId={settlementId} resources={state.resources} dispatch={dispatch}/>
-        </ModalProvider>
-        <CreateResource settlementId={settlementId} handleCreateResource={addResource}/>
-      </>  
-    )
-  }
-}
-
-export default SettlementInventory;
+export { initialState, resourceReducer };

@@ -17,6 +17,7 @@ const TestModal = () => {
             </button>
           </div>
           {modalContent}
+          <button onClick={() => handleModal()}>Close</button>
         </div>
       </div>
     </React.Fragment>, document.body

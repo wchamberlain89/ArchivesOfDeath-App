@@ -6,11 +6,11 @@ import { BrowserRouter } from 'react-router-dom';
 import './temp.css';
 
 ReactDOM.render(
-  <React.StrictMode>
+  
     <BrowserRouter>
       <App />
     </BrowserRouter>
-  </React.StrictMode>,
+  ,
   document.getElementById('root')
 );
 

@@ -11,7 +11,7 @@ const useModal = () => {
     }
   };
 
-  return { modal, handleModal, modalContent };
+  return { modal, handleModal, modalContent, setModal, setModalContent };
 };
 
 export default useModal;
