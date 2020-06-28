@@ -5,8 +5,7 @@ import Modal from './Modal';
 import ResourceList from './ResourceList';
 import ResourceListItem from './ResourceListItem';
 import ResourceSelect from './ResourceSelect';
-import Settlement from './Settlement';
-import SettlementInventory from './SettlementInventory';
+import ResourcesPage from './ResourcesPage';
 import SettlementsList from './SettlementsList';
 
 
@@ -18,7 +17,6 @@ export {
   ResourceList,
   ResourceListItem,
   ResourceSelect,
-  Settlement,
-  SettlementInventory,
+  ResourcesPage,
   SettlementsList
 }

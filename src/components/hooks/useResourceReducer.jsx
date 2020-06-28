@@ -1,7 +1,6 @@
 const initialState = {
   resources: [],
   isLoading: true,
-  fetching: false,
   error: ''
 }
 
@@ -57,8 +56,8 @@ const resourceReducer = ( state, action ) => {
         error: action.payload
       };
 
-    case 'ADD_RESOURCE_TO_LIST':
-      resourcesCopy.push(action.payload.resource);
+    case 'ADD_RESOURCE':
+      resourcesCopy.push(action.payload);
       resourcesCopy = sortByName(resourcesCopy);
       return {
         ...state,

@@ -1,9 +1,10 @@
-import React, { useReducer } from 'react';
+import React, { useReducer, useEffect } from 'react';
 import { initialState, resourceReducer } from './useResourceReducer';
+import useArchivesFetch from './useArchivesFetch';
 
-const ResourcesContext = React.createContext(null);
+export const ResourcesContext = React.createContext(null);
 
-const ResourcesProvider = ({ children }) => {
+export const ResourcesProvider = ({ children }) => {
   const [resources, dispatch] = useReducer(resourceReducer, initialState);
 
   return (
@@ -13,6 +14,4 @@ const ResourcesProvider = ({ children }) => {
   );
 }
 
-const ResourcesConsumer = ResourcesContext.Consumer;
-
-export default { ResourcesContext, ResourcesConsumer, ResourcesProvider };
+export const ResourcesConsumer = ResourcesContext.Consumer;
