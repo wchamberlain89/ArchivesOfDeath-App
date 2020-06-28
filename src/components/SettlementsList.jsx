@@ -1,10 +1,14 @@
 import React, { useEffect, useReducer } from 'react';
 import { Link } from 'react-router-dom';
 import { CreateSettlement } from './index';
-import { useAPI } from './hooks/useApi';
+import { useAPI } from './hooks/useAPI';
 
 const SettlementsList = () => {
-  const [ settlements, isLoading, error, fetchData ] = useAPI('getSettlements');
+  const [ settlements, setSettlements, isLoading, error, makeRequest ] = useAPI('getSettlements');
+
+  const onAddSettlement = ( settlement ) => {
+    setSettlements(settlements => [...settlements, settlement]);
+  }
 
   if(isLoading) {
     return <div>Loading...</div>
@@ -26,9 +30,9 @@ const SettlementsList = () => {
           })
         }
       </ul>
-      {/* <CreateSettlement
-        handleAddSettlement={addSettlement}
-      /> */}
+      <CreateSettlement
+        handleAddSettlement={onAddSettlement}
+      />
     </>
   ) 
 }

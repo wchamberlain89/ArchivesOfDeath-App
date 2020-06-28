@@ -1,5 +1,4 @@
 import Counter from './Counter';
-import CreateResource from './CreateResource';
 import CreateSettlement from './CreateSettlement';
 import Modal from './Modal';
 import ResourceList from './ResourceList';
@@ -11,7 +10,6 @@ import SettlementsList from './SettlementsList';
 
 export {
   Counter,
-  CreateResource,
   CreateSettlement,
   Modal,
   ResourceList,

@@ -1,41 +1,58 @@
-import React from 'react';
-import { initialState, resourceReducer } from './hooks/useResourceReducer';
+import React, { useEffect } from 'react';
 import { ModalProvider } from './hooks/useModalContext';
 import ResourceList from './ResourceList';
-import CreateResource from './CreateResource';
-
+import ResourceCreateController from './ResourceCreateController';
+import Modal from './Modal';
+import ResourceSelect from './ResourceSelect';
+import { useAPI } from './hooks/useAPI';
+import useTestModal from './hooks/useTestModal';
+import { useForm } from 'react-hook-form';
 
 const ResourcesPage = ( props ) => {
   const { settlement: { settlementId } } = props.location.state;
-  const [ resources, dispatch ] = React.useReducer(resourceReducer, initialState);
-
-  const DispatchContext = React.createContext(null);
   
-  React.useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const res = await fetch(`http://localhost:7000/settlements/${settlementId}/resources`);
-        const json = await res.json();
-        dispatch({type : "FETCH_SUCCESS", payload: json});
-      } catch (error) {
-        dispatch({type: "FETCH_FAILURE", payload: error});
-      }
-    };
-    fetchData();
-  }, []);
+  const [ resources, setResources, isLoading, error, makeRequest ] = useAPI('getSettlementResources', settlementId);
+  
+  const { register, handleSubmit } = useForm(); 
+  
+  const { showing, toggle } = useTestModal();
 
-  if(resources.isLoading) {
-    return <h1>Loading...</h1>
+  const handleAddResource = (newResource) => {
+    setResources([...resources, newResource]);
+  }
+
+  const onUpdateResource = (updatedResource) => {
+    setResources(resources.map( resource => {
+      if(updatedResource.resourceId === resource.resourceId) {
+        resource.qty = updatedResource.qty
+      }
+      return resource;
+    }));
   }
 
   return (
     <>
-      <DispatchContext.Provider value={dispatch}>
-        <ModalProvider>
-          <ResourceList settlementId={settlementId} resources={resources.resources} dispatch={dispatch}/>
-        </ModalProvider>
-        <CreateResource settlementId={settlementId} onCreateResource={(resource) => dispatch({ type: "ADD_RESOURCE", payload: resource })}/>  
-      </DispatchContext.Provider>  
+      <ModalProvider>
+        <ResourceList settlementId={settlementId} resources={resources} onUpdateResource={onUpdateResource}/>
+      </ModalProvider>
+      <ResourceCreateController settlementId={settlementId} onCreateResource={handleAddResource}>
+        {({ createResource }) => (
+          <>
+          <button onClick={() => toggle()}>Add new item</button>
+            <Modal
+              showing={showing}
+              toggle={toggle}
+              hide={() => toggle()}
+            >
+              <ResourceSelect register={register}/>
+              <button onClick={handleSubmit((data) => {
+                console.log(data);
+                createResource(data.resource)}
+                )}>Add Item</button>
+            </Modal>
+          </>
+        )} 
+      </ResourceCreateController>   
     </>
   )
 }

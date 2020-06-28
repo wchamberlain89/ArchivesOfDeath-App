@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import API from '../../services/archivesOfDeathService';
+import archivesOfDeathService from '../../services/archivesOfDeathService';
 
 export function useAPI(method, ...params) {
   // ---- Hooks
@@ -8,11 +8,11 @@ export function useAPI(method, ...params) {
   const [error, onError]          = useState(null);
 
   // ---- API
-  const fetchData = async () => {
+  const request = async () => {
     try {
       setIsLoading(true);
       console.log("attempting to fetch Data")
-      setData(await API[method](...params));
+      setData(await archivesOfDeathService[method](...params));
     } catch (error) {
       onError(error);
     } finally {
@@ -20,7 +20,7 @@ export function useAPI(method, ...params) {
     }
   };
 
-  useEffect(() => { fetchData() }, []);
+  useEffect(() => { request() }, []);
 
-  return [ data, isLoading, error, fetchData ];
+  return [ data, setData, isLoading, error, request ];
 }

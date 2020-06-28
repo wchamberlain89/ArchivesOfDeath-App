@@ -5,7 +5,6 @@ import GearPage from './GearPage';
 
 const SettlementDetailsPage = ( props ) => {
   const { settlement } = props.location.state;
-  console.log(settlement)
 
   return (
     <>
