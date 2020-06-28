@@ -1,9 +1,10 @@
 import React from "react";
 import { useForm } from "react-hook-form";
+import PropTypes from 'prop-types';
 
 const CreateSettlement = ( props ) => {
   const { register, handleSubmit, watch, errors } = useForm();
-  
+
   const createNewSettlement = (data) => {
     const requestOptions = {
       method: 'POST',
@@ -23,5 +24,6 @@ const CreateSettlement = ( props ) => {
     </form>
   );
 }
+
 
 export default CreateSettlement;
