@@ -1,9 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { useForm } from 'react-hook-form';
 
 const Modal = ({ showing, toggle, children }) => {
-
+  console.log(showing)
   return (
     showing ? ReactDOM.createPortal(
     <React.Fragment>

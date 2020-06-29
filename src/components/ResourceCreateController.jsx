@@ -1,8 +1,4 @@
 import React from 'react';
-import Modal from './Modal';
-import useTestModal from './hooks/useTestModal';
-import { useForm } from 'react-hook-form';
-import ResourceSelect from './ResourceSelect';
 
 const ResourceCreateController = ({ settlementId, onCreateResource, children }) => {
   const createResource = (resourceId) => {

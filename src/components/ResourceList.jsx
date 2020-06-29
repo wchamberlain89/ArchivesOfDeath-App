@@ -1,51 +1,28 @@
-import React, { useState, useContext } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import { ModalContext } from './hooks/useModalContext';
-import { 
-  Counter, 
-  ResourceListItem, 
-} from './index';
-import ResourceDetailModal from './ResourceDetailModal';
-import useTestModal from './hooks/useTestModal';
-import Modal from './Modal';
+import Counter from './Counter';
+import ResourceListItem from './ResourceListItem';
+import groupBy from '../utils/groupBy';
 
 const ResourceList = (props) => {
-  const { settlementId, resources, onUpdateResource } = props;
-  const [ selectedResource, setSelectedResource ] = useState(null);
-  const { showing, toggle } = useTestModal();
-  
+  const { settlementId, resources } = props;
 
-  const openModal = ( resource ) => {
-    setSelectedResource(resource);
-    toggle();
-  }
-  
+  console.log(groupBy(resources, 'qty'));
+
   return (
     <>
       <ul>
-        {resources.map( ( resource ) => {
+        {resources.map(( resource ) => {
           return <ResourceListItem 
             key={resource.resourceId} 
             name={resource.resourceInfo.name}
             qty={resource.qty} 
             resourceId={resource.resourceId}
             settlementId={settlementId}
-            onClick={ () => openModal( resource ) }
+            onClick={() => props.onClick(resource)}
           />
         })}
       </ul>
-      <Modal showing={showing} toggle={toggle}>
-        {selectedResource &&
-        <ResourceDetailModal 
-          name={selectedResource.resourceInfo.name}
-          description={selectedResource.resourceInfo.description}
-          qty={selectedResource.qty}
-          resourceId={selectedResource.resourceId}
-          settlementId={settlementId}
-          onUpdateResource={onUpdateResource}
-          toggle={toggle}
-        />}
-      </Modal>
     </>
   )
 }
@@ -56,7 +33,8 @@ ResourceList.propTypes = {
     resourceId : PropTypes.number,
     resourceInfo : PropTypes.shape({
       name : PropTypes.string,
-      description : PropTypes.string
+      description : PropTypes.string,
+      resourceType : PropTypes.string
     })
   }))
 }
