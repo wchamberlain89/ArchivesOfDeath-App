@@ -1,70 +1,69 @@
 import React from 'react';
+import { useForm } from 'react-hook-form'
+import { useAPI } from './hooks/useAPI';
+import ModalController from './ModalController';
+import Modal from './Modal';
+import GearCreateForm from './GearCreateForm';
+import GearDetailModalContent from './GearDetailModal';
+import GearList from './GearList';
+import GearListController from './GearListController';
 
-const initialState = {
-  gear: [],
-  isLoading: true,
-  error: ''
-}
-
-const gearReducer = ( state, action ) => {
-  switch(action.type) {
-    case 'INIT_FETCH':
-      return {
-        ...state,
-        isLoading: true
-      };
-
-    case 'FETCH_SUCCESS':
-      return {
-        ...state,
-        isLoading: false,
-        settlements: action.payload
-      };
-
-    case 'FETCH_FAILURE':
-      return {
-        ...state,
-        isLoading: false,
-        error: action.payload
-      };
-    default :
-      return state;
-  }
-}
 
 const GearPage = (props) => {
-  const { settlement } = props.location.state;
-  const [ gear, dispatch ] = React.useReducer( gearReducer, initialState );
-
-  React.useEffect(() => {
-    dispatch({ type: "INIT_FETCH" });
-
-    fetch(`http://localhost:7000/settlements/${settlement.settlementId}/gear`)
-    .then( response => response.json())
-    .then( result => {
-      console.log(result)
-      dispatch({ type: "FETCH_SUCCESS", payload: result });
-    })
-    .catch( error => {
-      dispatch({ type: "FETCH_FAILURE", payload: error})
-    });
-  }, []);
+  const { settlement: { settlementId } } = props.location.state;
+  const [ gear, setGear, isLoading, error ] = useAPI('getSettlementGear', settlementId); 
   
-  if(gear.isLoading) {
+  const addGear = (newGear) => {
+    setGear([...gear, newGear])
+  }
+
+  const updateGear = (updatedGearItem) => {
+    setGear(gear.map( gearItem => gearItem.gearId === updatedGearItem.gearId ? updatedGearItem : gearItem ));
+  }
+
+  if(isLoading) {
     return <h1>Loading</h1>
   }
   
   return (
     <>
-    <h1>{settlement.name}</h1>
+    <h1>{props.location.state.settlement.name}</h1>
+    <GearListController>
+        {({ selectGear, selectedGear }) => (
+          <ModalController>
+            {({ showing, toggle }) => (
+              <>
+                <GearList settlementId={settlementId} gear={gear} onClick={( gear ) => {
+                  selectGear(gear)
+                  toggle()
+                }}/>
+                <Modal showing={showing} toggle={toggle}>
+                  {selectedGear &&
+                  <GearDetailModalContent 
+                    description={selectedGear.gearInfo.description}
+                    settlementId={settlementId}
+                    name={selectedGear.gearInfo.name}
+                    onUpdateGear={updateGear}
+                    gearId={selectedGear.gearId}
+                    toggle={toggle} 
+                    qty={selectedGear.qty}/>}
+                </Modal>
+              </>
+            )}
+          </ModalController>
+        )}
+    </GearListController>
     
-    <ul>
-      {
-        gear.gear.map(gearItem => (
-          <li>gear.name</li>
-        ))
-      }
-    </ul>
+    <ModalController>
+      {({ showing, toggle }) => (
+        <>
+          <button onClick={() => toggle()}>Add new Gear</button>
+          <Modal showing={showing} toggle={toggle}>
+            <GearCreateForm settlementId={settlementId} onCreateGear={addGear}/>
+          </Modal>
+        </>
+      )}
+    </ModalController>
     </>
   )
 }

@@ -1,51 +1,38 @@
-import React, { useState, useContext } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import { ModalContext } from './hooks/useModalContext';
-import { 
-  Counter, 
-  ResourceListItem, 
-} from './index';
-import ResourceDetailModal from './ResourceDetailModal';
-import useTestModal from './hooks/useTestModal';
-import Modal from './Modal';
+import Counter from './Counter';
+import ResourceListItem from './ResourceListItem';
+import groupBy from '../utils/groupBy';
+import _ from 'lodash';
 
 const ResourceList = (props) => {
-  const { settlementId, resources, onUpdateResource } = props;
-  const [ selectedResource, setSelectedResource ] = useState(null);
-  const { showing, toggle } = useTestModal();
-  
+  const { settlementId, resources } = props;
 
-  const openModal = ( resource ) => {
-    setSelectedResource(resource);
-    toggle();
-  }
+  const groupedResources = _.groupBy(resources, 'resourceInfo.resourceType');
   
+  console.log(groupedResources);
+
   return (
     <>
-      <ul>
-        {resources.map( ( resource ) => {
-          return <ResourceListItem 
-            key={resource.resourceId} 
-            name={resource.resourceInfo.name}
-            qty={resource.qty} 
-            resourceId={resource.resourceId}
-            settlementId={settlementId}
-            onClick={ () => openModal( resource ) }
-          />
-        })}
-      </ul>
-      <Modal showing={showing} toggle={toggle}>
-        {selectedResource &&
-        <ResourceDetailModal 
-          name={selectedResource.resourceInfo.name}
-          description={selectedResource.resourceInfo.description}
-          qty={selectedResource.qty}
-          resourceId={selectedResource.resourceId}
-          settlementId={settlementId}
-          onUpdateResource={onUpdateResource}
-          toggle={toggle}
-        />}
-      </Modal>
+        {
+          Object.keys(groupedResources).map( resourceType => (
+            <>
+              <strong><h3 style={{marginTop: '2em'}}>{resourceType}</h3></strong>
+              {
+                groupedResources[resourceType].map( resource => (
+                  <ResourceListItem 
+                    key={resource.resourceId} 
+                    name={resource.resourceInfo.name}
+                    qty={resource.qty} 
+                    resourceId={resource.resourceId}
+                    settlementId={settlementId}
+                    onClick={() => props.onClick(resource)}
+                  />
+                ))
+              }
+            </>
+          ))
+        }
     </>
   )
 }
@@ -56,7 +43,8 @@ ResourceList.propTypes = {
     resourceId : PropTypes.number,
     resourceInfo : PropTypes.shape({
       name : PropTypes.string,
-      description : PropTypes.string
+      description : PropTypes.string,
+      resourceType : PropTypes.string
     })
   }))
 }

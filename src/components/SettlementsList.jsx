@@ -1,12 +1,12 @@
 import React, { useEffect, useReducer } from 'react';
 import { Link } from 'react-router-dom';
-import { CreateSettlement } from './index';
 import { useAPI } from './hooks/useAPI';
+import SettlementCreateForm from './SettlementCreateForm';
 
 const SettlementsList = () => {
   const [ settlements, setSettlements, isLoading, error, makeRequest ] = useAPI('getSettlements');
 
-  const onAddSettlement = ( settlement ) => {
+  const addSettlement = ( settlement ) => {
     setSettlements(settlements => [...settlements, settlement]);
   }
 
@@ -30,8 +30,8 @@ const SettlementsList = () => {
           })
         }
       </ul>
-      <CreateSettlement
-        handleAddSettlement={onAddSettlement}
+      <SettlementCreateForm
+        onCreateSettlement={addSettlement}
       />
     </>
   ) 

@@ -10,8 +10,15 @@ class archivesOfDeathAPI extends baseService {
   }
 
   getSettlementResources(settlementId) {
-    console.log("attempting to get resources")
     return this.GET(`/settlements/${settlementId}/resources`);
+  }
+
+  getSettlementGear(settlementId) {
+    return this.GET(`/settlements/${settlementId}/gear`);
+  }
+
+  getGearAssets() {
+    return this.GET(`/assets/gear`);
   }
 
   updateResource(settlementId, resourceId, body) {
