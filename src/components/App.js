@@ -10,6 +10,7 @@ function App() {
   return (
     <>
     <Switch>
+      <Route path="/survivors" component={SurvivorsPage}/>
       <Route path="/settlement" component={SettlementDetailsPage}/>
       <Route path="/resources" component={ResourcesPage}/>
       <Route path="/gear" component={GearPage}/>

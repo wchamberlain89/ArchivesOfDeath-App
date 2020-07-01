@@ -6,8 +6,6 @@ const ResourceSelect = ({ register }) => {
   const [selectedResourceType, setSelectedResourceType] = useState(null);
   
   const groupedResources = _.groupBy(resources, "resourceType");
-  console.log(groupedResources);
-  console.log(groupedResources.selectedResourceType, "selected resource type");
   const handleSelectFieldChange = (event) => {
     event.preventDefault();
     setSelectedResourceType(event.target.value);

@@ -11,6 +11,7 @@ const SettlementDetailsPage = ( props ) => {
     <h1>{settlement.name}</h1>
     <Link to={{ pathname: '/resources', state: { settlement: settlement } }}> Resources </Link>
     <Link to={{ pathname: '/gear', state: { settlement: settlement } }}> Gear </Link>
+    <Link to={{ pathname: '/survivors', state: { settlement: settlement } }}> Survivors </Link>
     </>
   )
 }
