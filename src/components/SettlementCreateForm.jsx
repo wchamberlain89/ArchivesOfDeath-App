@@ -2,11 +2,11 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import SettlementCreateController from './SettlementCreateController';
 
-const SettlementCreateForm = ({ onCreateSettlement }) => {
+const SettlementCreateForm = () => {
   const { register, handleSubmit, watch, errors } = useForm();
 
   return (
-    <SettlementCreateController onCreateSettlement={onCreateSettlement}>
+    <SettlementCreateController>
       { ({ createSettlement }) => (
         <form onSubmit={handleSubmit(( data ) => createSettlement({ name: data.name }))}>
           <label for="name">Name</label>

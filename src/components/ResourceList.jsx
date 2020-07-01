@@ -9,8 +9,6 @@ const ResourceList = (props) => {
   const { settlementId, resources } = props;
 
   const groupedResources = _.groupBy(resources, 'resourceInfo.resourceType');
-  
-  console.log(groupedResources);
 
   return (
     <>

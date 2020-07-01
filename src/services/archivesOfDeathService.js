@@ -21,12 +21,8 @@ class archivesOfDeathAPI extends baseService {
     return this.GET(`/assets/gear`);
   }
 
-  getSurvivors() {
+  getSurvivors(settlementId) {
     return this.GET(`/settlements/${settlementId}/survivors`);
-  }
-
-  updateResource(settlementId, resourceId, body) {
-    return this.PUT(`/settlements/${settlementId}/resources/${resourceId}`, body)
   }
 }
 

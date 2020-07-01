@@ -3,6 +3,7 @@ import { Switch, Route } from 'react-router-dom';
 import GearPage from './GearPage';
 import ResourcesPage from './ResourcesPage';
 import SettlementDetailsPage from './SettlementDetailsPage';
+import SurvivorsPage from './SurvivorsPage';
 import SettlementList from './SettlementsList';
 import '../temp.css';
 
