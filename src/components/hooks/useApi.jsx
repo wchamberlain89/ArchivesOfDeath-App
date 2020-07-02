@@ -4,14 +4,13 @@ import archivesOfDeathService from '../../services/archivesOfDeathService';
 export function useAPI(method, ...params) {
   // ---- Hooks
   const [data, setData]           = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [error, onError]          = useState(null);
 
   // ---- API
   const request = async () => {
     try {
       setIsLoading(true);
-      console.log("attempting to fetch Data")
       setData(await archivesOfDeathService[method](...params));
     } catch (error) {
       onError(error);

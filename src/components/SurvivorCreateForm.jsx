@@ -1,14 +1,14 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
-import SurvivorCreateController from './SurvivorCreateController';
+import ApiController from './ApiController';
 
-const SurvivorCreateForm = ({ settlementId }) => {
+const SurvivorCreateForm = ({ settlementId, onCreateSurvivor }) => {
   const { register, handleSubmit, watch, errors } = useForm();
   
   return (
-    <SurvivorCreateController settlementId={settlementId}>
-      { ({ createSurvivor }) => (
-        <form onSubmit={handleSubmit((data) => createSurvivor({ name: data.name, gender: data.gender }))}>
+    <ApiController method={"createSurvivor"} onSuccess={((response) => onCreateSurvivor(response))}>
+      { ({ makeRequest }) => (
+        <form onSubmit={handleSubmit((data) => makeRequest({ name: data.name, gender: data.gender, settlementId }))}>
           <label for="name">Name</label>
           <input name="name" ref={register({ required: true })} />
           
@@ -21,7 +21,7 @@ const SurvivorCreateForm = ({ settlementId }) => {
           <input type="submit"/>
         </form>
       )}
-    </SurvivorCreateController>
+    </ApiController>
   )
 }
 

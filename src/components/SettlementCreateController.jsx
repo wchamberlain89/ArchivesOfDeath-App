@@ -3,7 +3,6 @@ import React from 'react';
 const SettlementCreateController = ({ onCreateSettlement, children }) => {
   
   const createSettlement = ({ name }) => {
-    console.log(name)
     const requestOptions = {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },

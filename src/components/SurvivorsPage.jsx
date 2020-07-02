@@ -5,13 +5,21 @@ import SurvivorCreateForm from './SurvivorCreateForm';
 
 const SurvivorsPage = (props) => {
   const settlement = props.location.state.settlement;
-  const [ survivors, setSurvivors ] = useAPI('getSurvivors', settlement.settlementId);
+  const [ survivors, setSurvivors, isLoading ] = useAPI('getSurvivors', settlement.settlementId);
   
+  const addSurvivor = (survivor) => {
+    setSurvivors([...survivors, survivor])
+  }
+
+  if(isLoading) {
+    return null
+  }
+
   return (
     <>
-      <SurvivorsList survivors={survivors} />
+      <SurvivorsList settlementId={settlement.settlementId} survivors={survivors} />
       
-      <SurvivorCreateForm settlementId={settlement.settlementId} />
+      <SurvivorCreateForm settlementId={settlement.settlementId} onCreateSurvivor={addSurvivor}/>
          
     </>
   )

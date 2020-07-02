@@ -1,0 +1,8 @@
+.listItem:hover {
+  background-color: antiquewhite;
+}
+
+.name { 
+  font-size: 1.5em;
+  margin-top: .25em;
+}

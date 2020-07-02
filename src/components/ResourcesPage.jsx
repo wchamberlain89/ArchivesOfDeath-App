@@ -14,7 +14,7 @@ import ResourceListController from './ResourceListController';
 
 const ResourcesPage = ( props ) => {
   const { settlement: { settlementId } } = props.location.state;
-  const [ resources, setResources ] = useAPI('getSettlementResources', settlementId);
+  const [ resources, setResources, isLoading ] = useAPI('getSettlementResources', settlementId);
   const { register, handleSubmit } = useForm(); 
   
   const onCreateResource = (newResource) => {
@@ -23,6 +23,10 @@ const ResourcesPage = ( props ) => {
 
   const onUpdateResource = (updatedResource) => {
     setResources(resources.map( resource =>  resource.resourceId === updatedResource.resourceId ? updatedResource : resource  ));
+  }
+
+  if(isLoading) {
+    return null
   }
 
   return (

@@ -1,20 +1,24 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import SettlementCreateController from './SettlementCreateController';
+import ApiController from './ApiController';
+import archivesOfDeathService from '../services/archivesOfDeathService';
 
 const SettlementCreateForm = () => {
   const { register, handleSubmit, watch, errors } = useForm();
 
   return (
-    <SettlementCreateController>
-      { ({ createSettlement }) => (
-        <form onSubmit={handleSubmit(( data ) => createSettlement({ name: data.name }))}>
+    <ApiController method={'createSettlement'}>
+      {({ makeRequest, isLoading }) => (
+        <>
+        <form disabled={isLoading} onSubmit={handleSubmit(( data ) => makeRequest({ name : data.name }))}>
           <label for="name">Name</label>
           <input name="name" defaultValue="test" ref={register} />
           <input type="submit" />
         </form>
+        </>
       )}
-    </SettlementCreateController>
+    </ApiController>
   );
 }
 
