@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const SelectListItemController = ({ children }) => {
+const SelectFromListController = ({ children }) => {
   const [ selectedListItem, setSelectedListItem ] = useState(null);
 
   const selectListItem = (listItem) => {
@@ -17,4 +17,4 @@ const SelectListItemController = ({ children }) => {
   :  children
 }
 
-export default SelectListItemController
+export default SelectFromListController
