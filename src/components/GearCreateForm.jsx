@@ -1,6 +1,6 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
-import { useAPI } from './hooks/useAPI';
+import { useAPI } from './hooks/useApiService';
 import GearCreateController from './GearCreateController';
 
 const GearCreateForm = ({ settlementId, onCreateGear }) => {

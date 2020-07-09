@@ -1,6 +1,6 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
-import ApiController from './ApiController';
+import ApiController from './ApiServiceController';
 
 const SurvivorCreateForm = ({ settlementId, onCreateSurvivor }) => {
   const { register, handleSubmit, watch, errors } = useForm();

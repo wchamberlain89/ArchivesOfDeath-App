@@ -1,5 +1,5 @@
 import React from 'react';
-import { useAPI } from './hooks/useAPI';
+import { useAPI } from './hooks/useApiService';
 import FightingArts from './FightingArts';
 import SurvivorAttribute from './SurvivorAttribute';
 

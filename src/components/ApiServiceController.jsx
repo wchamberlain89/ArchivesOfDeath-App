@@ -2,7 +2,7 @@ import React from 'react';
 import archivesOfDeathService from '../services/archivesOfDeathService';
 import { useState } from 'react';
 
-const ApiController = ({ method, children, onSuccess, onError }) => {
+const ApiServiceController = ({ method, children, onSuccess, onError }) => {
   const [isLoading, setIsLoading] = useState(false);
 
   const makeRequest = (...params) => {
@@ -33,4 +33,4 @@ const ApiController = ({ method, children, onSuccess, onError }) => {
   :  children
 }
 
-export default ApiController;
+export default ApiServiceController;

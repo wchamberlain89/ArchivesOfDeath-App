@@ -1,7 +1,7 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
-import { useAPI } from './hooks/useAPI';
-import ApiController from './ApiController';
+import { useAPI } from './hooks/useApiService';
+import ApiController from './ApiServiceController';
 
 const FightingArtsForm = ({ survivorId, settlementId }) => {
   const { handleSubmit, register } = useForm();
