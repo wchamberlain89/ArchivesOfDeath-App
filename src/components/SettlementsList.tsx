@@ -3,11 +3,11 @@ import { Settlement } from '../types/interfaces';
 
 import SettlementListItem from './SettlementListItem';
 
-type SettlementListProps = {
+type ComponentProps = {
   settlements: Settlement[]
 }
 
-const SettlementsList = ({ settlements }: SettlementListProps) => {
+const SettlementsList = ({ settlements }: ComponentProps) => {
   return (
     <ul>
       {

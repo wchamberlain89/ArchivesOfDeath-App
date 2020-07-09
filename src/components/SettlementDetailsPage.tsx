@@ -1,9 +1,12 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import ResourcesPage from './ResourcesPage';
-import GearPage from './GearPage';
+import { Link, RouteComponentProps } from 'react-router-dom';
+import { Settlement } from '../types/interfaces';
 
-const SettlementDetailsPage = ( props ) => {
+type SettlementLocationState = {
+  settlement: Settlement
+}
+
+const SettlementDetailsPage = ( props: RouteComponentProps<{}, any, SettlementLocationState > ) => {
   const { settlement } = props.location.state;
 
   return (

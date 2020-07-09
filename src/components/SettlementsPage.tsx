@@ -18,26 +18,6 @@ const SettlementsPage = () => {
       />
     </div>
   )
-
-  // const addSettlement = ( settlement: Settlement ) => {
-  //   const updatedSettlements = [...settlements, settlement]
-  //   setSettlements(updatedSettlements);
-  // }
-
-  // if(isLoading) {
-  //   return <div>Loading...</div>
-  // }
-
-  // console.log(settlements)
-
-  // return (
-  //   <>
-  //     <SettlementsList settlements={settlements.payload}/>
-  //     <SettlementCreateForm
-  //       onCreateSettlement={addSettlement}
-  //     />
-  //   </>
-  // ) 
 }
 
 export default SettlementsPage;
