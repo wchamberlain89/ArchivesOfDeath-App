@@ -22,6 +22,8 @@ const settlementReducer = (state: State, action: ActionTypes): State => {
   switch(action.type) {
     case "SET_INITIAL_SETTLEMENTS":
       return { ...state, data: action.payload };
+    case "ADD_SETTLEMENT":
+      return { ...state, data: [ ...state.data, action.payload ]}
     case "INIT_LOADING":
       return { ...state, isLoading: true };
     case "FINISH_LOADING":
@@ -39,6 +41,14 @@ const initialState = {
 const useSettlements = () => {
   const [settlements, dispatch] = useReducer(settlementReducer, initialState);
 
+  const actions = {
+    addSettlement : ( payload: { name: string } ) => {
+      archivesOfDeathTestService.createSettlement(payload)
+      .then((response) => dispatch({ type: "ADD_SETTLEMENT", payload: response.data }))
+      .catch((error) => console.log(error))
+    }
+  }
+
   useEffect(() => {
       dispatch({ type: "INIT_LOADING" });
       
@@ -49,7 +59,7 @@ const useSettlements = () => {
 
   }, []);
 
-  return [ settlements, dispatch ] as const;
+  return [ settlements, dispatch, actions ] as const;
 };
 
 export default useSettlements;

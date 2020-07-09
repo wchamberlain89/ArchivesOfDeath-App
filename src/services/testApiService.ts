@@ -16,7 +16,7 @@ export default class testApiService {
     return this.instance.get(url, config)
   }
 
-  public post<T, B, R = AxiosResponse<T>> (url: string, data?: B, config?: AxiosRequestConfig): Promise<R> {
+  public post<T, B> (url: string, data?: B, config?: AxiosRequestConfig): Promise<AxiosResponse<T>> {
     return this.instance.post(url, data, config)
   }
 

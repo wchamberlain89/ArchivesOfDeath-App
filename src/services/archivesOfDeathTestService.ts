@@ -16,6 +16,13 @@ export class ArchivesOfDeathTestService extends testApiService {
     return this.get<Settlement[]>('/settlements');
   }
 
+  createSettlement(body: { name: string }) {
+    type CreateBodyType = {
+      name: string
+    }
+    return this.post<Settlement, CreateBodyType>(`/settlements`, { name : body.name });
+  }
+
   getResources() {
     return this.get<Resource[]>('/assets/resources');
   }
