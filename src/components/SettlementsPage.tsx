@@ -10,8 +10,9 @@ const SettlementsPage = () => {
 
   return (
     <div>
+      {console.log(settlements)}
       { 
-        settlements.isLoading ? <div>Loading</div> : <SettlementsList settlements={settlements.data}/>
+        settlements.status.isLoading ? <div>Loading</div> : <SettlementsList settlements={settlements.data}/>
       }
       <SettlementCreateForm 
         onCreateSettlement={(formData: ISettlementFormData) => actions.addSettlement(formData)}

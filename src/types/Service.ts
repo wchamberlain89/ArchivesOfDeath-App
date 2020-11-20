@@ -6,6 +6,10 @@ interface StatusLoading {
   status: 'loading';
 }
 
+interface StatusLoaded {
+  status: 'loaded'
+}
+
 interface StatusError {
   status: 'error';
   error: Error;
@@ -14,4 +18,5 @@ interface StatusError {
 export type Status =
   | StatusInit
   | StatusLoading
+  | StatusLoaded
   | StatusError;

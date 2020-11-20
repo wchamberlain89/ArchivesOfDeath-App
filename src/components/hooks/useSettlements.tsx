@@ -3,43 +3,67 @@ import { Status } from '../../types/Service';
 import { Settlement } from '../../types/interfaces';
 import archivesOfDeathTestService from '../../services/archivesOfDeathTestService';
 
-type State = {
-  data: Settlement[] | [];
+type SettlementState = Settlement[] | [];
+
+type StatusState = {
   isLoading: boolean;
-  error: string;
+  error: unknown;
 }
 
-type ActionTypes =
+type InitialStateType = {
+  data: Settlement[] | [];
+  status: {
+    isLoading: boolean
+    error: unknown
+  }
+}
+
+type SettlementActions =
   { type: 'SET_INITIAL_SETTLEMENTS', payload: Settlement[] } |
-  { type: 'ADD_SETTLEMENT', payload: Settlement } |
-  { type: 'INIT_LOADING' } |
+  { type: 'ADD_SETTLEMENT', payload: Settlement };
+
+type StatusActions = 
+  { type: 'INIT_LOADING' }  |
   { type: 'FINISH_LOADING'} |
   { type: 'SET_ERROR', error: string }
 ;
-  
 
-const settlementReducer = (state: State, action: ActionTypes): State => {
+const statusReducer = (state: StatusState, action: StatusActions): StatusState => {
   switch(action.type) {
-    case "SET_INITIAL_SETTLEMENTS":
-      return { ...state, data: action.payload };
-    case "ADD_SETTLEMENT":
-      return { ...state, data: [ ...state.data, action.payload ]}
     case "INIT_LOADING":
       return { ...state, isLoading: true };
     case "FINISH_LOADING":
-      return { ...state, isLoading: false};
+      return { ...state, isLoading: false };
+    default: return state;
+  }
+}
+  
+const settlementsReducer = (state: SettlementState, action: SettlementActions): SettlementState => {
+  console.log("SettlementReducer State", state)
+  switch(action.type) {
+    case "SET_INITIAL_SETTLEMENTS":
+      return action.payload;
+    case "ADD_SETTLEMENT":
+      return [ ...state, action.payload ]
     default: return state;
   }
 }
 
+const mainReducer = ( state: InitialStateType, action: SettlementActions | StatusActions ) => ({
+  data: settlementsReducer(state.data, action as SettlementActions),
+  status: statusReducer(state.status, action as StatusActions)
+});
+
 const initialState = {
   data: [],
-  isLoading: false,
-  error: '' 
-}
+  status: {
+    isLoading: false,
+    error: '' 
+  }
+};
 
 const useSettlements = () => {
-  const [settlements, dispatch] = useReducer(settlementReducer, initialState);
+  const [settlements, dispatch] = useReducer(mainReducer, initialState);
 
   const actions = {
     addSettlement : ( payload: { name: string } ) => {
