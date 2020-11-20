@@ -1,9 +1,12 @@
+//External
 import React from 'react';
-
-//Hook Imports
+import { RouteComponentProps } from 'react-router-dom';
+//Hooks
 import { useAPI } from './hooks/useApiService';
 import { useForm } from 'react-hook-form';
-//Component Imports
+//Types & Interfaces
+import { Settlement } from '../types/interfaces';
+//Components
 import ResourceList from './ResourceList';
 import ResourceCreateController from './ResourceCreateController';
 import Modal from './Modal';
@@ -12,7 +15,9 @@ import ModalController from './ModalController';
 import ResourceDetailModalContent from './ResourceDetailModalContent';
 import ResourceListController from './ResourceListController';
 
-const ResourcesPage = ( props ) => {
+
+
+const ResourcesPage = ( props  ) => {
   const { settlement: { settlementId } } = props.location.state;
   const [ resources, setResources, isLoading ] = useAPI('getSettlementResources', settlementId);
   const { register, handleSubmit } = useForm(); 

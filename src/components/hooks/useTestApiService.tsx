@@ -10,7 +10,7 @@ type methodTypes =
 export function useAPI<T>(method: methodTypes, ...params: any[]) {
   archivesOfDeathTestService['']
   // ---- Hooks
-  const [data, setData]           = useState<unknown[]>([]);
+  const [data, setData]           = useState<methodTypes[] | []>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, onError]          = useState<any>(null);
 
@@ -19,7 +19,6 @@ export function useAPI<T>(method: methodTypes, ...params: any[]) {
     try {
       setIsLoading(true);
       const response = await archivesOfDeathTestService[method]();
-      setData(response.data);
     } catch (error) {
       onError(error);
     } finally {
