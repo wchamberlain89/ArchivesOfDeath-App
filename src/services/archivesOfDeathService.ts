@@ -1,6 +1,8 @@
 import baseService from './baseService';
 
 class archivesOfDeathAPI extends baseService {
+  [index: string]: Function;
+
   constructor() {
     super('http://localhost:7000');
   }
@@ -19,38 +21,37 @@ class archivesOfDeathAPI extends baseService {
     return this.GET('/settlements');
   }
   
-  createSettlement(body) {
+  createSettlement(body: { name? : string }) {
     return this.POST(`/settlements`, { name: body.name });
   }
 
   //ResourceRoutes
-  getSettlementResources(settlementId) {
+  getSettlementResources(settlementId: number) {
     return this.GET(`/settlements/${settlementId}/resources`);
   }
 
   //GearRoutes
-  getSettlementGear(settlementId) {
+  getSettlementGear(settlementId: number) {
     return this.GET(`/settlements/${settlementId}/gear`);
   }
 
   //SurvivorRoutes
-  getSurvivors(settlementId) {
+  getSurvivors(settlementId: number) {
     return this.GET(`/survivors?settlementId=${settlementId}`);
   }
 
-  getSurvivor(survivorId) {
+  getSurvivor(survivorId: number) {
     console.log("getting survivor")
     return this.GET(`/survivors/${survivorId}`)
   }
 
-  createSurvivor(body) {
+  createSurvivor(body: { name: string, gender: string, settlementId : number}) {
     return this.POST(`/survivors`, { name: body.name, gender: body.gender, settlementId: body.settlementId })
   }
 
   //Survivor Fighting Art Routes
-  createSurvivorFightingArt(settlementId, survivorId, body) {
-    console.log(body) 
-    return this.POST(`/settlements/${settlementId}/survivors/${survivorId}/fightingArts`, { fightingArtId: body.fightingArtId });
+  createSurvivorFightingArt(survivorId: string, body: { fightingArtId: number }) {
+    return this.POST(`/survivors/${survivorId}/fightingArts`, { fightingArtId: body.fightingArtId });
   }
 }
 

@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
 import archivesOfDeathService from '../../services/archivesOfDeathService';
 
-export function useAPI(method, ...params) {
+export function useAPI(method:string, ...params: any[]) {
   // ---- Hooks
-  const [data, setData]           = useState([]);
+  const [data, setData]           = useState<object[] | []>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, onError]          = useState(null);
 
@@ -21,5 +21,5 @@ export function useAPI(method, ...params) {
 
   useEffect(() => { request() }, []);
 
-  return [ data, setData, isLoading, error, request ];
+  return [ data, setData, isLoading, error, request ] as const;
 }

@@ -1,9 +1,9 @@
 import React from 'react';
-import _ from 'lodash';
+import {upperFirst} from 'lodash';
 
 const SurvivorAttribute = ({ name, value }) => {
   return (
-    <div>{_.upperFirst(name)}: {value}</div>
+    <div>{upperFirst(name)}: {value}</div>
   )
 }
 

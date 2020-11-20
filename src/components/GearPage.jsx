@@ -1,6 +1,6 @@
 import React from 'react';
 import { useForm } from 'react-hook-form'
-import { useAPI } from './hooks/useAPI';
+import { useAPI } from './hooks/useApiService';
 import ModalController from './ModalController';
 import Modal from './Modal';
 import GearCreateForm from './GearCreateForm';

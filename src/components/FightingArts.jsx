@@ -1,5 +1,5 @@
 import React from 'react';
-import ApiController from './ApiController';
+import ApiController from './ApiServiceController';
 import FightingArtsForm from './FightingArtsForm';
 
 const FightingArts = ({ fightingArts, settlementId, survivorId }) => {

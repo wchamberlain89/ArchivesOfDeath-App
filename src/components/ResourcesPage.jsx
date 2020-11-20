@@ -1,7 +1,7 @@
 import React from 'react';
 
 //Hook Imports
-import { useAPI } from './hooks/useAPI';
+import { useAPI } from './hooks/useApiService';
 import { useForm } from 'react-hook-form';
 //Component Imports
 import ResourceList from './ResourceList';

@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Counter from './Counter';
 import ResourceListItem from './ResourceListItem';
-import groupBy from '../utils/groupBy';
 import _ from 'lodash';
 
 const ResourceList = (props) => {

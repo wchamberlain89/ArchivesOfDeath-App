@@ -5,7 +5,7 @@ import ResourcesPage from './ResourcesPage';
 import SettlementDetailsPage from './SettlementDetailsPage';
 import SurvivorDetailPage from './SurvivorDetailPage';
 import SurvivorsPage from './SurvivorsPage';
-import SettlementList from './SettlementsList';
+import SettlementsPage from './SettlementsPage';
 import '../temp.css';
 
 function App() {
@@ -17,7 +17,7 @@ function App() {
       <Route path="/settlement" component={SettlementDetailsPage}/>
       <Route path="/resources" component={ResourcesPage}/>
       <Route path="/gear" component={GearPage}/>
-      <Route path="/" exact component={SettlementList}/>
+      <Route path="/" exact component={SettlementsPage}/>
     </Switch>
     </>
   );
